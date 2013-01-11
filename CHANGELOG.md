@@ -1,9 +1,64 @@
-# 0.1.0: In progress
+# 0.1.0: Not released yet
 
-## Goals
+## Changes and new features
 
-* Cleaner bootstrap code
-* Local integration testing
+* Move all commands under "knife solo" namespace (#118)
+    - Rename `knife kitchen` to `knife solo init`
+    - Rename `knife wash_up` to `knife solo clean`
+* Add `knife solo bootstrap` command (#120)
+* OmniOS support (#144)
+* Detect Fedora 17 (#141)
+* Update chef-solo-search and add support of encrypted data bags (#127)
+* Support Librarian (#36)
+* Always install rsync from yum on RPM-based Linuxes (#157)
+
+## Fixes
+
+* Improve help/error messages and validation (#142)
+* Fix exit status of "cook" if chef-solo fails (#97)
+* Fix option passing to the Omnibus installer (#163)
+* Other fixes: #146, #155, #158, #160, #164
+
+## Documentation
+
+* Include documentation and tests in the gem (e01c23)
+* [Home page](http://matschaffer.github.com/knife-solo/)
+  that reflects always the current release (#151)
+
+## Thanks to our contributors!
+
+* [Marek Hulan][ares]
+* [Anton Orel][skyeagle]
+* [Adam Carlile][Frozenproduce]
+* [Chris Lundquist][ChrisLundquist]
+* [Hiten Parmar][hrp]
+* [Patrick Connolly][patcon]
+
+# 0.0.15: November 29th, 2012
+
+* Support for non-x86 omnibus (#137)
+* Validate hostname in wash\_up (7a9115)
+* Scientific Linux support (#131)
+* Default to SSL omnibus URL (#130)
+* Fixes for base debian installations (#129)
+* Whyrun flag support (#123)
+* Node-name flag support (#107)
+* No More Syntax Check!! (#122)
+
+* Various fixes: #138, #119, #113, d38bfd1
+
+## Thanks to our contributors!
+
+* [David Schneider][davidsch]
+* [Andrew Vit][avit]
+* [Nick Shortway][DrGonzo65]
+* [Guido Serra aka Zeph][zeph]
+* [Patrick Connolly][patcon]
+* [Greg Fitzgerald][gregf]
+* [Bryan McLellan][btm]
+* [Aaron Jensen][aaronjensen]
+
+And a special thanks to [Teemu Matilainen][tmatilai] who is now on the list of direct colaborators!
 
 # 0.0.14: September 21st, 2012
 
@@ -141,26 +196,39 @@
 * Generate node config on prepare
 * Cook via rsync
 
-[rubiojr]:       https://github.com/rubiojr
-[natlownes]:     https://github.com/natlownes
-[retr0h]:        https://github.com/retr0h
-[hectcastro]:    https://github.com/hectcastro
-[patatepartie]:  https://github.com/patatepartie
-[fnichol]:       https://github.com/fnichol
-[jgarber]:       https://github.com/jgarber
-[gsterndale]:    https://github.com/gsterndale
-[amoslanka]:     https://github.com/amoslanka
-[rmoriz]:        http://github.com/rmoriz
-[TylerRick]:     http://github.com/TylerRick
-[Motiejus]:      http://github.com/Motiejus
+[ChrisLundquist]:https://github.com/ChrisLundquist
+[DrGonzo65]:     https://github.com/DrGonzo65
+[Frozenproduce]: https://github.com/Frozenproduce
+[Motiejus]:      https://github.com/Motiejus
 [Nix-wie-weg]:   https://github.com/Nix-wie-weg
-[jgrevich]:      https://github.com/jgrevich
-[rosstimson]:    https://github.com/rosstimson
+[TylerRick]:     https://github.com/TylerRick
+[aaronjensen]:   https://github.com/aaronjensen
+[amoslanka]:     https://github.com/amoslanka
+[ares]:          https://github.com/ares
+[avit]:          https://github.com/avit
 [brynary]:       https://github.com/brynary
-[gregf]:         https://github.com/gregf
+[btm]:           https://github.com/btm
+[davidsch]:      https://github.com/davidsch
 [deepak]:        https://github.com/deepak
-[funglaub]:      https://github/funglaub
-[vjpr]:          https://github.com/vjpr
-[ryandub]:       https://github.com/ryandub
+[fnichol]:       https://github.com/fnichol
+[funglaub]:      https://github.com/funglaub
+[gregf]:         https://github.com/gregf
+[gsterndale]:    https://github.com/gsterndale
+[hectcastro]:    https://github.com/hectcastro
+[hrp]:           https://github.com/hrp
+[jgarber]:       https://github.com/jgarber
+[jgrevich]:      https://github.com/jgrevich
+[natlownes]:     https://github.com/natlownes
+[patatepartie]:  https://github.com/patatepartie
+[patcon]:        https://github.com/patcon
 [pferdefleisch]: https://github.com/pferdefleisch
 [portertech]:    https://github.com/portertech
+[retr0h]:        https://github.com/retr0h
+[rmoriz]:        https://github.com/rmoriz
+[rosstimson]:    https://github.com/rosstimson
+[rubiojr]:       https://github.com/rubiojr
+[ryandub]:       https://github.com/ryandub
+[skyeagle]:      https://github.com/skyeagle
+[tmatilai]:      https://github.com/tmatilai
+[vjpr]:          https://github.com/vjpr
+[zeph]:          https://github.com/zeph

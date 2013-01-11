@@ -57,7 +57,7 @@ module KnifeSolo
 
       def http_client_get_url(url, file)
         stream_command <<-BASH
-          if which curl 2>/dev/null; then
+          if command -v curl >/dev/null 2>&1; then
             curl -L -o #{file} #{url}
           else
             wget -O #{file} #{url}
@@ -66,16 +66,23 @@ module KnifeSolo
       end
 
       def omnibus_install
-        url = prepare.config[:omnibus_url] || "http://opscode.com/chef/install.sh"
+        url = prepare.config[:omnibus_url] || "https://www.opscode.com/chef/install.sh"
         file = File.basename(url)
         http_client_get_url(url, file)
         # `release_version` within install.sh will be installed if
         # `omnibus_version` is not provided.
         install_command = "sudo bash #{file}"
         install_command << " -v #{prepare.config[:omnibus_version]}" if prepare.config[:omnibus_version]
-        install_command << " #{prepare.config[:options]}" if prepare.config[:options]
+        install_command << " #{prepare.config[:omnibus_options]}" if prepare.config[:omnibus_options]
 
         stream_command(install_command)
+      end
+
+      def yum_omnibus_install
+        omnibus_install
+        # Make sure we have rsync on builds that don't include it by default
+        # (for example Scientific Linux minimal, CentOS minimal)
+        run_command("sudo yum -y install rsync")
       end
 
       def debianoid_omnibus_install
@@ -105,7 +112,7 @@ module KnifeSolo
       include KnifeSolo::Bootstraps::InstallCommands
 
       def initialize(prepare)
-        # instance of Chef::Knife::Prepare
+        # instance of Chef::Knife::SoloPrepare
         @prepare = prepare
       end
 

@@ -1,11 +1,12 @@
 require 'test_helper'
 require 'support/kitchen_helper'
+require 'support/validation_helper'
 
-require 'chef/knife/prepare'
-require 'knife-solo/knife_solo_error'
+require 'chef/knife/solo_prepare'
 
-class PrepareTest < TestCase
+class SoloPrepareTest < TestCase
   include KitchenHelper
+  include ValidationHelper::ValidationTests
 
   def setup
     @host = 'someuser@somehost.domain.com'
@@ -43,15 +44,7 @@ class PrepareTest < TestCase
     end
   end
 
-  def test_barks_without_atleast_a_hostname
-    in_kitchen do
-      assert_raises KnifeSolo::KnifeSoloError do
-        command.run
-      end
-    end
-  end
-
   def command(*args)
-    knife_command(Chef::Knife::Prepare, *args)
+    knife_command(Chef::Knife::SoloPrepare, *args)
   end
 end

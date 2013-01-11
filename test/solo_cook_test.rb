@@ -1,13 +1,20 @@
 require 'test_helper'
 require 'support/kitchen_helper'
+require 'support/validation_helper'
 
 require 'chef/cookbook/chefignore'
-require 'chef/knife'
-require 'chef/knife/cook'
-require 'knife-solo/knife_solo_error'
+require 'chef/knife/solo_cook'
+require 'librarian/action/install'
 
-class CookTest < TestCase
+class SuccessfulResult
+  def success?
+    true
+  end
+end
+
+class SoloCookTest < TestCase
   include KitchenHelper
+  include ValidationHelper::ValidationTests
 
   def test_gets_destination_path_from_chef_config
     Chef::Config.file_cache_path "/tmp/chef-solo"
@@ -32,11 +39,18 @@ class CookTest < TestCase
     end
   end
 
-  def test_barks_without_atleast_a_hostname
+  def test_does_not_run_librarian_if_no_cheffile
     in_kitchen do
-      assert_raises KnifeSolo::KnifeSoloError do
-        command.run
-      end
+      Librarian::Action::Install.any_instance.expects(:run).never
+      command.librarian_install
+    end
+  end
+
+  def test_runs_librarian_if_cheffile_found
+    in_kitchen do
+      File.open("Cheffile", 'w') {}
+      Librarian::Action::Install.any_instance.expects(:run)
+      command.librarian_install
     end
   end
 
@@ -54,16 +68,16 @@ class CookTest < TestCase
     matcher = regexp_matches(/\s#{Regexp.quote(chef_solo_option)}(\s|$)/)
     in_kitchen do
       cmd = command("somehost", cook_option)
-      cmd.expects(:stream_command).with(matcher)
+      cmd.expects(:stream_command).with(matcher).returns(SuccessfulResult.new)
       cmd.cook
 
       cmd = command("somehost")
-      cmd.expects(:stream_command).with(Not(matcher))
+      cmd.expects(:stream_command).with(Not(matcher)).returns(SuccessfulResult.new)
       cmd.cook
     end
   end
 
   def command(*args)
-    knife_command(Chef::Knife::Cook, *args)
+    knife_command(Chef::Knife::SoloCook, *args)
   end
 end
